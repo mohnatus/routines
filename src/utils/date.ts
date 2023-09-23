@@ -38,4 +38,34 @@ export function getDateString(date: Date | TMoment): string {
 		.padStart(2, '0')}.${_date.getFullYear()}`;
 }
 
+export function getNextWeekDay(date: Date | TMoment, days: TWeekDay[]): Date | null {
+	if (days.length === 0) return null;
+
+	const _date = _getDateObject(date);
+
+	while (true) {
+		_date.setDate(_date.getDate() + 1);
+		const _weekDay = _date.getDay();
+		const weekDay = _weekDay === 0 ? 6 : _weekDay - 1;
+		if (days.includes(weekDay)) {
+			return _date;
+		}
+	}
+}
+
+export function getNextMonthDay(date: Date | TMoment, days: TMonthDay[]): Date | null {
+	console.log('next month day', date, days)
+	if (days.length === 0) return null;
+
+	const _date = _getDateObject(date);
+
+	while (true) {
+		_date.setDate(_date.getDate() + 1);
+		const _monthDay = _date.getDate();
+		if (days.includes(_monthDay)) {
+			return _date;
+		}
+	}
+}
+
 export const todayMoment = getDateMoment();

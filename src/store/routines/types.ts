@@ -1,6 +1,9 @@
+import { RepeatTypes, TRoutine } from "../types";
+
 export enum RoutinesActionTypes {
 	init = 'routines/init',
 	add = 'routine/add',
+	update = 'routine/update',
 	remove = 'routine/remove',
 	check = 'routine/check',
 	reset = 'routine/reset',
@@ -14,6 +17,11 @@ export type TInitRoutinesAction = {
 
 export type TAddRoutineAction = {
 	type: RoutinesActionTypes.add;
+	payload: TRoutine;
+};
+
+export type TUpdateRoutineAction = {
+	type: RoutinesActionTypes.update;
 	payload: TRoutine;
 };
 
@@ -40,6 +48,7 @@ export type TChangeDateAction = {
 export type TRoutineAction =
 	| TInitRoutinesAction
 	| TAddRoutineAction
+	| TUpdateRoutineAction
 	| TRemoveRoutineAction
 	| TCheckRoutineAction
 	| TResetRoutineAction
@@ -48,4 +57,12 @@ export type TRoutineAction =
 
 export interface IRoutinesState {
 	routines: TRoutine[]
+}
+
+export type TRoutineData = {
+	name: string;
+	repeatType: RepeatTypes | null;
+	period: number;
+	weekDays: TWeekDay[];
+	monthDays: TMonthDay[];
 }

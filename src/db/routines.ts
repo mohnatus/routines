@@ -2,6 +2,7 @@ import { IDBPDatabase } from 'idb';
 import { STORE_ROUTINES } from './constants';
 import { getDb } from './db';
 import { RoutinesDB } from './types';
+import { TRoutine } from '@/store/types';
 
 export async function getRoutinesTransaction(db: IDBPDatabase<RoutinesDB>) {
 	const transaction = db.transaction(STORE_ROUTINES, 'readonly');

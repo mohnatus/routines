@@ -1,4 +1,5 @@
-import { todayMoment } from './date';
+import { RepeatTypes, TRoutine } from '@/store/types';
+import { getNextMonthDay, getNextWeekDay, todayMoment } from './date';
 
 export function getNextMoment(routine: TRoutine): TMoment | null {
 	const { createdAt, lastCheck, repeat } = routine;
@@ -14,18 +15,18 @@ export function getNextMoment(routine: TRoutine): TMoment | null {
 
 	let nextMoment;
 
-	if (repeat.type === 'days') {
-		const date = new Date(lastCheck);
-		date.setDate(date.getDate() + repeat.value);
-		nextMoment = +date;
-	} else if (repeat.type === 'weekDay') {
-		const date = new Date(lastCheck);
-		date.setDate(date.getDate() + 7);
-		nextMoment = +date;
+	if (repeat.type === RepeatTypes.period) {
+		if (repeat.value > 0) {
+			const date = new Date(lastCheck);
+			date.setDate(date.getDate() + repeat.value);
+			nextMoment = +date;
+		}
+	} else if (repeat.type === RepeatTypes.weekDay) {
+		const nextDate = getNextWeekDay(lastCheck, repeat.value);
+		if (nextDate) nextMoment = +nextDate;
 	} else {
-		const date = new Date(lastCheck);
-		date.setMonth(date.getMonth() + 1);
-		nextMoment = +date;
+		const nextDate = getNextMonthDay(lastCheck, repeat.value);
+		if (nextDate) nextMoment = +nextDate;
 	}
 
 	if (!nextMoment || nextMoment < todayMoment) return todayMoment;

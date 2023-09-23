@@ -9,6 +9,9 @@ export const routinesReducer: Reducer<IRoutinesState, TRoutineAction> = (
 	state = defaultState,
 	action
 ) => {
+
+	console.log(action)
+
 	switch (action.type) {
 		case RoutinesActionTypes.init:
 			return {
@@ -20,6 +23,14 @@ export const routinesReducer: Reducer<IRoutinesState, TRoutineAction> = (
 				...state,
 				routines: [...state.routines, action.payload],
 			};
+		case RoutinesActionTypes.update:
+			return {
+				...state,
+				routines: state.routines.map(routine => {
+					if (routine.id === action.payload.id) return action.payload;
+					return routine
+				})
+			}
 		case RoutinesActionTypes.remove:
 			return {
 				...state,

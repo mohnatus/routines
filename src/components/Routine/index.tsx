@@ -6,12 +6,14 @@ import {
 	resetRoutineAction,
 } from '@/store/routines';
 import { todayMoment } from '@/utils/date';
+import { TRoutine } from '@/store/types';
 
 export type TRoutineProps = {
 	routine: TRoutine;
+	onClick?: () => void
 };
 
-export const Routine: FC<TRoutineProps> = ({ routine }) => {
+export const Routine: FC<TRoutineProps> = ({ routine, onClick }) => {
 	const dispatch = useStoreDispatch();
 	const { date } = useStoreSelector((state: IAppState) => state.date);
 
@@ -41,7 +43,7 @@ export const Routine: FC<TRoutineProps> = ({ routine }) => {
 					onChange={handleChange}
 				/>
 			</div>
-			<div>{routine.name}</div>
+			<div onClick={onClick}>{routine.name}</div>
 			<div>
 				<button type='button' onClick={handleRemove}>
 					&times;

@@ -2,21 +2,20 @@ import { nanoid } from 'nanoid';
 import { createRoutine } from '@/db';
 import { getDateMoment } from '@/utils/date';
 import { getTime } from '@/utils/time';
-import { RoutinesActionTypes, TAddRoutineAction } from './types';
+import { RoutinesActionTypes, TAddRoutineAction, TRoutineData } from './types';
+import { TRoutine } from '../types';
+import { getRepeat } from './utils';
 
-export function addRoutineAction({
-	name,
-}: Pick<TRoutine, 'name'>): TAddRoutineAction {
+export function addRoutineAction(params: TRoutineData): TAddRoutineAction {
+	const { name } = params;
+
 	const routine: TRoutine = {
 		id: nanoid(),
 		name,
 		createdAt: getDateMoment(),
 		lastCheck: null,
 		active: true,
-		repeat: {
-			type: 'days',
-			value: 2,
-		},
+		repeat: getRepeat(params),
 		time: getTime(),
 	};
 

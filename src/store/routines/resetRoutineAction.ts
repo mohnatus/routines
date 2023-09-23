@@ -1,3 +1,4 @@
+import { TRoutine } from '../types';
 import { RoutinesActionTypes, TCheckRoutineAction } from './types';
 
 export function resetRoutineAction(routine: TRoutine): TCheckRoutineAction {
