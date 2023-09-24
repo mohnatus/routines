@@ -1,0 +1,12 @@
+.Toasts {
+	position: fixed;
+	left: 20px;
+	right: 20px;
+	bottom: 20px;
+}
+
+.ToastsContainer {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 10px;
+}

@@ -9,11 +9,23 @@ import { RoutinesPage } from './pages/RoutinesPage';
 import { store } from './store/store';
 import { readDBData } from './db';
 import { initRoutinesAction } from './store/routines';
+import { RoutinePage } from './pages/RoutinePage';
+import { Layout } from './layouts/layout';
 
 const router = createBrowserRouter([
 	{
 		path: '/',
 		element: <RoutinesPage />,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/routine/new',
+		element: <RoutinePage />,
+		errorElement: <ErrorPage />,
+	},
+	{
+		path: '/routine/:routineId',
+		element: <RoutinePage />,
 		errorElement: <ErrorPage />,
 	},
 ]);
@@ -22,14 +34,16 @@ const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
 );
 
-readDBData().then(data => {
-	store.dispatch(initRoutinesAction(data.routines))
-})
+readDBData().then((data) => {
+	store.dispatch(initRoutinesAction(data.routines));
+});
 
 root.render(
 	<React.StrictMode>
 		<Provider store={store}>
-			<RouterProvider router={router} />
+			<Layout>
+				<RouterProvider router={router} />
+			</Layout>
 		</Provider>
 	</React.StrictMode>
 );

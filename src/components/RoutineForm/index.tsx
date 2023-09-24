@@ -1,4 +1,4 @@
-import { FC, FormEventHandler, useEffect, useState } from 'react';
+import { FC, FormEventHandler, useCallback, useEffect, useState } from 'react';
 import { useStoreDispatch } from '@/store/store';
 import { addRoutineAction, updateRoutineAction } from '@/store/routines';
 import { RepeatTypes, TRoutine } from '@/store/types';
@@ -6,10 +6,11 @@ import { Week } from '../Week';
 import { TRoutineData } from '@/store/routines/types';
 import { Month } from '../Month';
 import { Period } from '../Period';
+import { showToastAction } from '@/store/toast';
 
 export type TRoutineFormProps = {
 	routine?: TRoutine | null;
-	onSubmit: () => void;
+	onSubmit?: (routine: TRoutine) => void;
 };
 
 export const RoutineForm: FC<TRoutineFormProps> = ({ routine, onSubmit }) => {
@@ -25,6 +26,28 @@ export const RoutineForm: FC<TRoutineFormProps> = ({ routine, onSubmit }) => {
 		setName('');
 		setRepeatType(null);
 		setPeriod(1);
+		setWeekDays([]);
+		setMonthDays([]);
+	};
+
+	const setDefaultData = useCallback(() => {
+		if (routine) {
+			setName(routine.name);
+			setRepeatType(routine.repeat?.type || null);
+			if (routine.repeat?.type === RepeatTypes.period) {
+				setPeriod(routine.repeat.value);
+			} else if (routine.repeat?.type === RepeatTypes.weekDay) {
+				setWeekDays(routine.repeat.value);
+			} else if (routine.repeat?.type === RepeatTypes.monthDay) {
+				setMonthDays(routine.repeat.value);
+			}
+		} else {
+			reset();
+		}
+	}, [routine]);
+
+	const handleReset = () => {
+		setDefaultData();
 	};
 
 	const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
@@ -42,34 +65,26 @@ export const RoutineForm: FC<TRoutineFormProps> = ({ routine, onSubmit }) => {
 
 		reset();
 
+		const action = routine
+			? updateRoutineAction(routine, routineData)
+			: addRoutineAction(routineData);
+
+		dispatch(action);
+
 		dispatch(
-			routine
-				? updateRoutineAction(routine, routineData)
-				: addRoutineAction(routineData)
+			showToastAction({
+				text: routine
+					? 'Рутина успешно обновлена'
+					: 'Рутина успешно сохранена',
+			})
 		);
 
-		if (onSubmit) onSubmit();
+		if (onSubmit) onSubmit(action.payload);
 	};
 
 	useEffect(() => {
-		if (routine) {
-			setName(routine.name);
-			setRepeatType(routine.repeat?.type || null);
-			if (routine.repeat?.type === RepeatTypes.period) {
-				setPeriod(routine.repeat.value);
-			} else if (routine.repeat?.type === RepeatTypes.weekDay) {
-				setWeekDays(routine.repeat.value);
-			} else if (routine.repeat?.type === RepeatTypes.monthDay) {
-				setMonthDays(routine.repeat.value);
-			}
-		} else {
-			setName('');
-			setRepeatType(null);
-			setPeriod(1);
-			setWeekDays([]);
-			setMonthDays([]);
-		}
-	}, [routine]);
+		setDefaultData();
+	}, [setDefaultData]);
 
 	return (
 		<form onSubmit={handleSubmit}>
@@ -133,6 +148,9 @@ export const RoutineForm: FC<TRoutineFormProps> = ({ routine, onSubmit }) => {
 			</div>
 
 			<div>
+				<button type='button' onClick={handleReset}>
+					Отменить
+				</button>
 				<button type='submit'>Сохранить</button>
 			</div>
 		</form>

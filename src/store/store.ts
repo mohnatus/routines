@@ -11,11 +11,13 @@ import { IRoutinesState, routinesReducer } from './routines';
 import { IDateState, dateReducer } from './date';
 import { TDateAction } from './date';
 import { TRoutineAction } from './routines/types';
+import { IToastState, TToastAction, toastReducer } from './toast';
 
-export type TAction = TRoutineAction | TDateAction;
+export type TAction = TRoutineAction | TDateAction | TToastAction;
 export interface IAppState {
 	routines: IRoutinesState;
 	date: IDateState;
+	toast: IToastState
 };
 
 type IAppDispatch = ThunkDispatch<IAppState, any, TAction>;
@@ -29,6 +31,7 @@ export const store = createStore(
 	combineReducers({
 		routines: routinesReducer,
 		date: dateReducer,
+		toast: toastReducer
 	}),
 	composeEnhancers(
 		applyMiddleware<IAppDispatch, any>(

@@ -4,18 +4,13 @@ import { TRoutine } from '@/store/types';
 
 export type TRoutinesListProps = {
 	routines: TRoutine[];
-	onRoutineClick?: (routine: TRoutine) => void
 };
 
-export const RoutinesList: FC<TRoutinesListProps> = ({ routines, onRoutineClick }) => {
-	const handleRoutineClick = (routine: TRoutine) => {
-		if (onRoutineClick) onRoutineClick(routine)
-	}
-
+export const RoutinesList: FC<TRoutinesListProps> = ({ routines }) => {
 	return (
 		<div>
 			{routines.map((routine) => (
-				<Routine key={routine.id} routine={routine} onClick={() => handleRoutineClick(routine)}></Routine>
+				<Routine key={routine.id} routine={routine}></Routine>
 			))}
 		</div>
 	);
