@@ -3,7 +3,7 @@ import { IAppState, useStoreDispatch, useStoreSelector } from '@/store/store';
 import {
 	checkRoutineAction,
 	removeRoutineAction,
-	resetRoutineAction,
+	uncheckRoutineAction,
 } from '@/store/routines';
 import { todayMoment } from '@/utils/date';
 import { TRoutine } from '@/store/types';
@@ -25,7 +25,7 @@ export const Routine: FC<TRoutineProps> = ({ routine, onClick }) => {
 		if (input.checked) {
 			dispatch(checkRoutineAction(routine));
 		} else {
-			dispatch(resetRoutineAction(routine));
+			dispatch(uncheckRoutineAction(routine));
 		}
 	};
 

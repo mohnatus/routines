@@ -6,7 +6,7 @@ export enum RoutinesActionTypes {
 	update = 'routine/update',
 	remove = 'routine/remove',
 	check = 'routine/check',
-	reset = 'routine/reset',
+	uncheck = 'routine/uncheck',
 	changeDate = 'date/change',
 }
 
@@ -35,9 +35,9 @@ export type TCheckRoutineAction = {
 	payload: Pick<TRoutine, 'id' | 'lastCheck'>;
 };
 
-export type TResetRoutineAction = {
-	type: RoutinesActionTypes.reset;
-	payload: Pick<TRoutine, 'id' | 'lastCheck'>;
+export type TUncheckRoutineAction = {
+	type: RoutinesActionTypes.uncheck;
+	payload: Pick<TRoutine, 'id'>;
 };
 
 export type TChangeDateAction = {
@@ -51,7 +51,7 @@ export type TRoutineAction =
 	| TUpdateRoutineAction
 	| TRemoveRoutineAction
 	| TCheckRoutineAction
-	| TResetRoutineAction
+	| TUncheckRoutineAction
 	| TChangeDateAction;
 
 

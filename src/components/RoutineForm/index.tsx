@@ -5,6 +5,7 @@ import { RepeatTypes, TRoutine } from '@/store/types';
 import { Week } from '../Week';
 import { TRoutineData } from '@/store/routines/types';
 import { Month } from '../Month';
+import { Period } from '../Period';
 
 export type TRoutineFormProps = {
 	routine?: TRoutine | null;
@@ -112,11 +113,7 @@ export const RoutineForm: FC<TRoutineFormProps> = ({ routine, onSubmit }) => {
 				{repeatType === RepeatTypes.period && (
 					<div>
 						Повторять через n дней
-						<input
-							type='number'
-							value={period}
-							onChange={(e) => setPeriod(Number(e.target.value))}
-						/>
+						<Period value={period} onChange={setPeriod} />
 					</div>
 				)}
 

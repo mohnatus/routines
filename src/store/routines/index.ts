@@ -3,7 +3,7 @@ export { addRoutineAction } from './addRoutineAction';
 export { updateRoutineAction } from './updateRoutineAction';
 export { removeRoutineAction } from './removeRoutineAction';
 export { checkRoutineAction } from './checkRoutineAction';
-export { resetRoutineAction } from './resetRoutineAction';
+export { uncheckRoutineAction } from './uncheckRoutineAction';
 
 export { routinesReducer } from './reducer';
 

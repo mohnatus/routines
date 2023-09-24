@@ -9,8 +9,7 @@ export const routinesReducer: Reducer<IRoutinesState, TRoutineAction> = (
 	state = defaultState,
 	action
 ) => {
-
-	console.log(action)
+	console.log(action);
 
 	switch (action.type) {
 		case RoutinesActionTypes.init:
@@ -26,11 +25,11 @@ export const routinesReducer: Reducer<IRoutinesState, TRoutineAction> = (
 		case RoutinesActionTypes.update:
 			return {
 				...state,
-				routines: state.routines.map(routine => {
+				routines: state.routines.map((routine) => {
 					if (routine.id === action.payload.id) return action.payload;
-					return routine
-				})
-			}
+					return routine;
+				}),
+			};
 		case RoutinesActionTypes.remove:
 			return {
 				...state,
@@ -39,20 +38,30 @@ export const routinesReducer: Reducer<IRoutinesState, TRoutineAction> = (
 				),
 			};
 		case RoutinesActionTypes.check:
-		case RoutinesActionTypes.reset:
-			const { id, lastCheck } = action.payload;
-			const routines = state.routines.map((routine) => {
-				if (routine.id === id) {
-					return {
-						...routine,
-						lastCheck,
-					};
-				}
-				return routine;
-			});
 			return {
 				...state,
-				routines,
+				routines: state.routines.map((routine) => {
+					if (routine.id === action.payload.id) {
+						return {
+							...routine,
+							lastCheck: action.payload.lastCheck,
+						};
+					}
+					return routine;
+				}),
+			};
+		case RoutinesActionTypes.uncheck:
+			return {
+				...state,
+				routines: state.routines.map((routine) => {
+					if (routine.id === action.payload.id) {
+						return {
+							...routine,
+							lastCheck: null,
+						};
+					}
+					return routine;
+				}),
 			};
 
 		default:
