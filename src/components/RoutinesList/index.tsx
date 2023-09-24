@@ -7,6 +7,8 @@ export type TRoutinesListProps = {
 };
 
 export const RoutinesList: FC<TRoutinesListProps> = ({ routines }) => {
+	if (routines.length === 0) return null;
+	
 	return (
 		<div>
 			{routines.map((routine) => (

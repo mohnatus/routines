@@ -15,18 +15,22 @@ import { Layout } from './layouts/layout';
 const router = createBrowserRouter([
 	{
 		path: '/',
-		element: <RoutinesPage />,
 		errorElement: <ErrorPage />,
-	},
-	{
-		path: '/routine/new',
-		element: <RoutinePage />,
-		errorElement: <ErrorPage />,
-	},
-	{
-		path: '/routine/:routineId',
-		element: <RoutinePage />,
-		errorElement: <ErrorPage />,
+		element: <Layout />,
+		children: [
+			{
+				path: '/routines',
+				element: <RoutinesPage />,
+			},
+			{
+				path: '/routine/new',
+				element: <RoutinePage />,
+			},
+			{
+				path: '/routine/:routineId',
+				element: <RoutinePage />,
+			},
+		],
 	},
 ]);
 
@@ -41,9 +45,7 @@ readDBData().then((data) => {
 root.render(
 	<React.StrictMode>
 		<Provider store={store}>
-			<Layout>
-				<RouterProvider router={router} />
-			</Layout>
+			<RouterProvider router={router} />
 		</Provider>
 	</React.StrictMode>
 );

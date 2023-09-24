@@ -1,5 +1,5 @@
 import { ChangeEventHandler, FC, MouseEventHandler } from 'react';
-import { IAppState, useStoreDispatch, useStoreSelector } from '@/store/store';
+import { useStoreDispatch, useStoreSelector } from '@/store/store';
 import {
 	checkRoutineAction,
 	removeRoutineAction,
@@ -7,6 +7,7 @@ import {
 } from '@/store/routines';
 import { todayMoment } from '@/utils/date';
 import { TRoutine } from '@/store/types';
+import { selectDate } from '@/store/date/selectors';
 
 export type TRoutineProps = {
 	routine: TRoutine;
@@ -15,7 +16,7 @@ export type TRoutineProps = {
 
 export const Routine: FC<TRoutineProps> = ({ routine, onClick }) => {
 	const dispatch = useStoreDispatch();
-	const { date } = useStoreSelector((state: IAppState) => state.date);
+	const date = useStoreSelector(selectDate);
 
 	const checked = routine.lastCheck === date;
 	const disabled = date > todayMoment

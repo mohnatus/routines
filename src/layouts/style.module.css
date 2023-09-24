@@ -1,3 +1,22 @@
+.Root {
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+}
+
+.Container {
+	max-width: 1280px;
+	margin: auto;
+}
+
+.Main {
+	flex-grow: 1;
+}
+
+.Footer {
+	flex-shrink: 0;
+}
+
 .Toasts {
 	position: fixed;
 	left: 20px;
@@ -6,7 +25,7 @@
 }
 
 .ToastsContainer {
-  display: flex;
-  flex-direction: column-reverse;
-  gap: 10px;
+	display: flex;
+	flex-direction: column-reverse;
+	gap: 10px;
 }
